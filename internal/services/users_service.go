@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var ErrDuplicateEmailPassword = errors.New("username or email already exists")
+var ErrDuplicateEmailOrUsername = errors.New("username or email already exists")
 
 type UserService struct {
 	pool    *pgxpool.Pool
@@ -45,7 +45,7 @@ func (us *UserService) CreateUser(ctx context.Context, userName, email, password
 		var pgErr *pgconn.PgError
 
 		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
-			return uuid.UUID{}, ErrDuplicateEmailPassword
+			return uuid.UUID{}, ErrDuplicateEmailOrUsername
 		}
 
 		return uuid.UUID{}, err
