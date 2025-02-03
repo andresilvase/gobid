@@ -15,3 +15,4 @@ migrations:
 
 sql:
 	sqlc generate -f ./internal/store/pgstore/sqlc.yml
+	
