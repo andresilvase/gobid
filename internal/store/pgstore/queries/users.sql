@@ -19,8 +19,7 @@ WHERE
 
 -- name: GetUserByEmail :one
 SELECT
-  id,
-  email,
+  id,  
   user_name,
   password_hash,
   email,
