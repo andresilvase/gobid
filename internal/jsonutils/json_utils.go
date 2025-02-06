@@ -2,6 +2,7 @@ package jsonutils
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -23,7 +24,14 @@ func DecodeValidJson[T validator.Validator](r *http.Request) (T, map[string]stri
 	var data T
 
 	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
-		errorMsg := fmt.Errorf("failed to decode data: %w", err)
+		var unmarshalTypeError *json.UnmarshalTypeError
+		var errorMsg error
+
+		if errors.As(err, &unmarshalTypeError) {
+			errorMsg = fmt.Errorf("field: %s, expected: %s, got: %s", unmarshalTypeError.Field, unmarshalTypeError.Type, unmarshalTypeError.Value)
+		} else {
+			errorMsg = fmt.Errorf("invalid JSON format: %w", err)
+		}
 
 		return data, map[string]string{"error": errorMsg.Error()}, errorMsg
 	}
