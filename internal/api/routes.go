@@ -8,9 +8,9 @@ import (
 func (api *Api) BindRoutes() {
 
 	api.Router.Use(
+		middleware.Logger,
 		middleware.RequestID,
 		middleware.Recoverer,
-		middleware.Logger,
 		api.Sessions.LoadAndSave,
 	)
 
