@@ -10,13 +10,13 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type BidService struct {
+type BidsService struct {
 	pool    *pgxpool.Pool
 	queries *pgstore.Queries
 }
 
-func NewBidService(pool *pgxpool.Pool) *BidService {
-	return &BidService{
+func NewBidService(pool *pgxpool.Pool) *BidsService {
+	return &BidsService{
 		pool:    pool,
 		queries: pgstore.New(pool),
 	}
@@ -24,7 +24,7 @@ func NewBidService(pool *pgxpool.Pool) *BidService {
 
 var ErrBidIsTooLow = errors.New("bid value is too low")
 
-func (bs *BidService) PlaceBid(ctx context.Context, product_id, bidder_id uuid.UUID, amount float64) (pgstore.Bid, error) {
+func (bs *BidsService) PlaceBid(ctx context.Context, product_id, bidder_id uuid.UUID, amount float64) (pgstore.Bid, error) {
 	product, err := bs.queries.GetProductById(ctx, product_id)
 
 	if err != nil {
