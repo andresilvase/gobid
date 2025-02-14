@@ -56,9 +56,9 @@ func main() {
 
 	api := api.Api{
 		Router:         chi.NewMux(),
-		UserService:    *services.NewUserService(pool),
-		ProductService: *services.NewProductService(pool),
-		BidsService:    *services.NewBidService(pool),
+		UserService:    services.NewUserService(pool),
+		ProductService: services.NewProductService(pool),
+		BidsService:    services.NewBidService(pool),
 		Sessions:       s,
 		WsUpgrader:     websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}, // true only for development
 		AuctionLobby:   services.AuctionLobby{Rooms: make(map[uuid.UUID]*services.AuctionRoom)},

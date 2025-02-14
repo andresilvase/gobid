@@ -15,8 +15,8 @@ type BidsService struct {
 	queries *pgstore.Queries
 }
 
-func NewBidService(pool *pgxpool.Pool) *BidsService {
-	return &BidsService{
+func NewBidService(pool *pgxpool.Pool) BidsService {
+	return BidsService{
 		pool:    pool,
 		queries: pgstore.New(pool),
 	}

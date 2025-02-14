@@ -20,8 +20,8 @@ type UserService struct {
 	queries *pgstore.Queries
 }
 
-func NewUserService(pool *pgxpool.Pool) *UserService {
-	return &UserService{
+func NewUserService(pool *pgxpool.Pool) UserService {
+	return UserService{
 		pool:    pool,
 		queries: pgstore.New(pool),
 	}

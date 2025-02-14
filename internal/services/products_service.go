@@ -15,8 +15,8 @@ type ProductService struct {
 	queries *pgstore.Queries
 }
 
-func NewProductService(pool *pgxpool.Pool) *ProductService {
-	return &ProductService{
+func NewProductService(pool *pgxpool.Pool) ProductService {
+	return ProductService{
 		pool:    pool,
 		queries: pgstore.New(pool),
 	}
