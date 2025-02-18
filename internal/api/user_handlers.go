@@ -9,7 +9,7 @@ import (
 	"github.com/andresilvase/gobid/internal/usecase/user"
 )
 
-func (a *Api) handleSignup(w http.ResponseWriter, r *http.Request) {
+func (a *Api) handleSignupUser(w http.ResponseWriter, r *http.Request) {
 
 	data, problems, err := jsonutils.DecodeValidJson[user.CreateUserReq](r)
 
