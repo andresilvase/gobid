@@ -60,6 +60,7 @@ func (api *Api) handleSubscribeUserToAuction(w http.ResponseWriter, r *http.Requ
 		jsonutils.EncodeJson(w, r, http.StatusBadRequest, map[string]any{
 			"message": "auction has ended"},
 		)
+		return
 	}
 
 	conn, err := api.WsUpgrader.Upgrade(w, r, nil)
@@ -71,15 +72,11 @@ func (api *Api) handleSubscribeUserToAuction(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	defer conn.Close()
-
 	client := services.NewClient(room, conn, userId)
-
-	// go client.ReadEventLoop()
-	// go client.WriteEventLoop()
 
 	room.Register <- client
 
-	for {
-	}
+	go client.ReadEventLoop()
+	go client.WriteEventLoop()
+
 }
