@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -36,7 +35,6 @@ func (api *Api) BindRoutes() {
 					r.Use(api.AuthMiddleware)
 					r.Post("/", api.handleCreateProduct)
 					r.Get("/ws/subscribe/{product_id}", func(w http.ResponseWriter, r *http.Request) {
-						log.Printf("Received WebSocket connection request for product: %s", chi.URLParam(r, "product_id"))
 						api.handleSubscribeUserToAuction(w, r)
 					})
 				})

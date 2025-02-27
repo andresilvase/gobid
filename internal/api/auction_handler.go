@@ -12,7 +12,7 @@ import (
 )
 
 func (api *Api) handleSubscribeUserToAuction(w http.ResponseWriter, r *http.Request) {
-	slog.Info("Received WebSocket connection request for product: %s", "product_id", chi.URLParam(r, "product_id"))
+	slog.Info("Received WebSocket connection request for", "product_id", chi.URLParam(r, "product_id"))
 	rawProductId := chi.URLParam(r, "product_id")
 
 	productId, err := uuid.Parse(rawProductId)
@@ -26,9 +26,9 @@ func (api *Api) handleSubscribeUserToAuction(w http.ResponseWriter, r *http.Requ
 	}
 
 	_, err = api.ProductService.GetProductById(r.Context(), productId)
-	slog.Error("error: %v", "value", err)
 
 	if err != nil {
+		slog.Error("", "", err)
 		if errors.Is(err, services.ErrProductNotFound) {
 			jsonutils.EncodeJson(w, r, http.StatusNotFound, map[string]any{
 				"message": "product with given id not found",
